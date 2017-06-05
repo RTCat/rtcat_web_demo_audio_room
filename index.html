@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Push&Talk</title>
+</head>
+<body>
+<a href="docs/index.html">查看Api文档</a>
+<br>
+</body>
+<script src="js/rtcat-audioroom.min.js"></script>
+<script>
+    RTCat.setLogLevel(RTCat.logLevel.ERROR);
+    var session = RTCat.createSession();
+    var room;
+
+    session.on("connected",function () {
+        console.log("session","connected");
+        session.joinRoom(1234,'spacetime').then(function (_room) {
+            console.log("room","join 1234 success");
+            room = _room;
+            room.on('error',function (e) {
+                console.log("room error",e);
+            });
+
+            room.on('media', function () {
+                pushAndTalk();
+                console.log("room","stream");
+            });
+
+            room.on('in',function (who) {
+                console.log("room","in",who);
+            });
+
+            room.on('leave',function (who) {
+                console.log("room","leave",who);
+            });
+
+            room.on('statechange',function (state) {
+                console.log("room","state",state);
+            });
+
+            room.on('closed',function () {
+                console.log("room","closed");
+            });
+
+            room.start("publisher");
+        }).catch(function (e) {
+            console.log("room","join error",e)
+        });
+    });
+
+    session.on("disconnected",function () {
+        console.log("session","disconnect");
+    });
+
+    session.on("error",function (e) {
+        console.log("session","error",e);
+    }) ;
+
+    session.on("statechange",function (s) {
+        console.log("session","state",s);
+    });
+
+    session.connect();
+    
+    
+    function pushAndTalk() {
+        //todo add text
+        console.log("start push and talk");
+        room.muteMic(true);
+
+        let keyTalk = 'g';
+
+        let tips = document.createElement('output');
+        tips.textContent = "请按 \"" + keyTalk + "键\"发言\t";
+        document.querySelector('body').appendChild(tips);
+
+        let state = document.createElement('output');
+        state.style.color = 'green';
+        document.querySelector('body').appendChild(state);
+
+        document.addEventListener('keydown',function (e) {
+            if(!e.repeat && e.key == keyTalk){
+                room.muteMic(false);
+                state.textContent = "你正在讲话";
+            }
+        });
+
+        document.addEventListener('keyup',function (e) {
+            if(e.key == keyTalk){
+                room.muteMic(true);
+                state.textContent = "";
+            }
+        });
+    }
+</script>
+</html>
