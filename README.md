@@ -5,7 +5,7 @@
 此样例用于演示使用`实时猫 AudioRoom JS SDK`主要功能。
 
 ## 使用
-1. `git clone git@github.com:RTCat/rtcat_audioroom_web_demo.git`
+1. `git clone git@github.com:RTCat/rtcat_web_demo_audio_room.git`
 2. `cd rtcat_audioroom_web_demo && npm start`
 3. 使用浏览器打开 `https://localhost:8080` 页面即可
 
