@@ -6,7 +6,7 @@
 
 ## 使用
 1. `git clone git@github.com:RTCat/rtcat_web_demo_audio_room.git`
-2. `cd rtcat_audioroom_web_demo && npm start`
+2. `cd rtcat_web_demo_audio_room && npm start`
 3. 使用浏览器打开 `https://localhost:8080` 页面即可
 
 
