@@ -83,6 +83,7 @@
         document.addEventListener('keydown',function (e) {
             if(!e.repeat && e.key == keyTalk){
                 room.muteMic(false);
+                room.record('start');
                 state.textContent = "你正在讲话";
             }
         });
@@ -90,6 +91,15 @@
         document.addEventListener('keyup',function (e) {
             if(e.key == keyTalk){
                 room.muteMic(true);
+                let url = room.record('stop');
+                let name = Date.now() + ".webm";
+                let a = document.createElement('a');
+                let br = document.createElement('br');
+                a.href = url;
+                a.download = name;
+                a.textContent = name;
+                document.body.appendChild(br);
+                document.body.appendChild(a);
                 state.textContent = "";
             }
         });
